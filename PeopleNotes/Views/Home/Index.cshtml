@@ -1,0 +1,31 @@
+﻿@model IEnumerable<PeopleNotes.Classes.Person>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+    <form method="post">
+        <div class="mb-3 mt-3">
+            <label for="search" class="form-label">Search:</label>
+            <input type="search" class="form-control" id="search" placeholder="Search for a person" name="search" />
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    @if (Model != null)
+    {
+        if (Model.Count() == 0)
+        {
+            @:No records found
+        }
+        @foreach (var p in Model)
+        {
+            <a asp-controller="people" asp-route-id="@p.PersonId">@p.FirstName</a>
+        }
+
+    }
+</div>
