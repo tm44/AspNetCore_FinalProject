@@ -3,6 +3,7 @@
 *@
 @model PeopleNotes.Classes.Person
 @{
-    <h1>@Model.FirstName</h1>
-    <partial name="_Notes" model="Model.Notes" />
+    ViewData["Person"] = Model;
 }
+<h1>@Model.FirstName</h1>
+<partial name="_Notes" model="Model.Notes" view-data="ViewData" />

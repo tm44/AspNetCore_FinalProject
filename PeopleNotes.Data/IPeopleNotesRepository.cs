@@ -13,5 +13,6 @@ namespace PeopleNotes.Data
         IEnumerable<Person> GetPeopleByName(int userId, string name);
         Person GetPersonById(int userId, int id);
         IEnumerable<Note> GetNotesForPerson(int personId);
+        Note CreateNote(Note note);
     }
 }

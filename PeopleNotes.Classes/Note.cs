@@ -7,6 +7,6 @@
         public DateTime LastUpdated { get; set; }
 
         public int PersonId { get; set; }
-        public Person Person { get; set; }
+        public Person? Person { get; set; }
     }
 }
