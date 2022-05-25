@@ -47,5 +47,32 @@ namespace PeopleNotes.Data
             _context.SaveChanges();
             return note;
         }
+
+        public Note GetNoteById(int noteId)
+        {
+            return _context.Notes.First(n => n.NoteId == noteId);
+        }
+
+        public Note UpdateNote(Note note)
+        {
+            var updatedNote = _context.Notes.FirstOrDefault(n => n.NoteId == note.NoteId);
+            if (updatedNote != null)
+            {
+                updatedNote.Text = note.Text;
+                updatedNote.LastUpdated = DateTime.Now;
+                _context.SaveChanges();
+            }
+            return updatedNote;
+        }
+
+        public void DeleteNote(int noteId)
+        {
+            var note = _context.Notes.FirstOrDefault(n => n.NoteId == noteId);
+            if (note != null)
+            {
+                _context.Notes.Remove(note);
+                _context.SaveChanges();
+            }
+        }
     }
 }

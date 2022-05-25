@@ -27,6 +27,12 @@ namespace PeopleNotes.Controllers
 
         public IActionResult Index()
         {
+            var cookieOptions = new CookieOptions
+            {
+                Expires = DateTime.Now.AddYears(1)
+            };
+
+            Response.Cookies.Append("UserId", "1", cookieOptions);
             return View();
         }
 

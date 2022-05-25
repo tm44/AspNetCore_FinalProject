@@ -1,18 +1,19 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+    https://docs.microsoft.com/en-us/aspnet/core/mvc/views/tag-helpers/built-in/anchor-tag-helper?view=aspnetcore-6.0
 *@
 @model IEnumerable<PeopleNotes.Classes.Note>
 @{
 
-    <div id="PlaceHolderHere"></div>
-
-    <button type="button" class="btn btn-primary" data-toggle="ajax-modal" data-target="#addNote" data-url="@Url.Action("Create", "Note")" data-personid="@Model.FirstOrDefault()?.PersonId">Create</button>
+    <a asp-action="AddOrEdit" asp-controller="Notes" class="btn btn-success text-white"><i class="fas fa-random"></i> New Note</a>
     <table class="table">
         <thead>
             <tr>
                 <th>
                     @Html.DisplayNameFor(m => m.Text)
                 </th>
+                <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -20,6 +21,12 @@
             {
                 <tr>
                     <td>@n.Text</td>
+                    <td>
+                        <a asp-action="AddOrEdit" asp-controller="Notes" asp-route-id="@n.NoteId" class="btn btn-success text-white"><i class="fas fa-random"></i> Edit me</a>
+                    </td>
+                    <td>
+                        <a asp-action="Delete" asp-controller="Notes" asp-route-id="@n.NoteId" class="btn btn-success text-white"><i class="fas fa-random"></i> Delete</a>
+                    </td>
                 </tr>
             }
         </tbody>
