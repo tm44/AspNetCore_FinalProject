@@ -2,10 +2,11 @@
 using PeopleNotes.Models;
 using System.Diagnostics;
 using PeopleNotes.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PeopleNotes.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IPeopleNotesRepository _repository;
@@ -25,15 +26,14 @@ namespace PeopleNotes.Controllers
             return View(people);
         }
 
+        [HttpGet]
+        [Authorize]
         public IActionResult Index()
         {
-            var cookieOptions = new CookieOptions
-            {
-                Expires = DateTime.Now.AddYears(1)
-            };
-
-            Response.Cookies.Append("UserId", "1", cookieOptions);
-            return View();
+            if (CurrentUser == null)
+                return RedirectToAction("LogOn", "Account");
+            var people = _repository.GetPeople(CurrentUser.UserId);
+            return View(people);
         }
 
         public IActionResult Privacy()

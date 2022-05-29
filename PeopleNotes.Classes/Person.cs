@@ -11,7 +11,6 @@ namespace PeopleNotes.Classes
 
         public int UserId { get; set; }
         
-        [Required]
-        public User User { get; set; }
+        public User? User { get; set; }
     }
 }

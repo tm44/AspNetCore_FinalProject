@@ -74,5 +74,25 @@ namespace PeopleNotes.Data
                 _context.SaveChanges();
             }
         }
+
+        public User GetUser(string username, string password)
+        {
+            return _context.Users.FirstOrDefault(u => u.Username.ToLower() == username.ToLower() && u.Password == password);
+        }
+
+        public User CreateUser(string username, string password)
+        {
+            var user = new User() {  Username = username, Password = password };
+            _context.Users.Add(user);
+            _context.SaveChanges();
+            return user;
+        }
+
+        public Person CreatePerson(Person person)
+        {
+            var newPerson = _context.People.Add(person);
+            _context.SaveChanges();
+            return newPerson.Entity;
+        }
     }
 }

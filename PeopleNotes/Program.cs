@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using PeopleNotes.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +7,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddSingleton<IPeopleNotesRepository, PeopleNotesRepository>();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+    {
+        options.LoginPath = new PathString("/Account/LogOn");
+        options.AccessDeniedPath = new PathString("/Account/Denied");
+    });
+
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddSession();
 
 var app = builder.Build();
 
@@ -18,10 +30,16 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
+
 app.UseAuthorization();
+
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.UseAuthentication();
 
 app.Run();

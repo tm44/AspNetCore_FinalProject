@@ -1,20 +1,28 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PeopleNotes.Classes;
 using PeopleNotes.Data;
+using PeopleNotes.Models;
+using System.Security.Claims;
 
 namespace PeopleNotes.Controllers
 {
-    public class PeopleController : Controller
+    public class PeopleController : BaseController
     {
         private IPeopleNotesRepository _repo;
         public PeopleController(IPeopleNotesRepository repo)
         {
             _repo = repo;
         }
-        // GET: PeopleController
+        // GET: /People/1
+        [Authorize]
         public ActionResult Index(int id)
         {
-            var person = _repo.GetPersonById(1, id);
+            if (id == 0)
+                return RedirectToAction("index", "home");
+
+            var person = _repo.GetPersonById(CurrentUser.UserId, id);
             person.Notes = _repo.GetNotesForPerson(person.PersonId).ToList();
             return View(person);
         }
@@ -34,16 +42,22 @@ namespace PeopleNotes.Controllers
         // POST: PeopleController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(PersonModel model)
         {
-            try
+
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var person = new Person()
             {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                UserId = base.CurrentUser.UserId
+            };
+
+            _repo.CreatePerson(person);
+
+            return RedirectToAction("index", new { id = person.PersonId});
         }
 
         // GET: PeopleController/Edit/5

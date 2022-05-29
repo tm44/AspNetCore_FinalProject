@@ -1,11 +1,10 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-    https://docs.microsoft.com/en-us/aspnet/core/mvc/views/tag-helpers/built-in/anchor-tag-helper?view=aspnetcore-6.0
-*@
+﻿@using PeopleNotes.Classes
+
 @model IEnumerable<PeopleNotes.Classes.Note>
 @{
+    var personId = ((Person)ViewData["Person"]).PersonId;
 
-    <a asp-action="AddOrEdit" asp-controller="Notes" class="btn btn-success text-white"><i class="fas fa-random"></i> New Note</a>
+    <a asp-action="AddOrEdit" asp-controller="Notes" asp-route-personId="@personId" class="btn btn-success text-white"><i class="fas fa-random"></i> New Note</a>
     <table class="table">
         <thead>
             <tr>

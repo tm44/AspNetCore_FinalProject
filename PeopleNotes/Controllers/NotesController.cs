@@ -4,7 +4,7 @@ using PeopleNotes.Data;
 
 namespace PeopleNotes.Controllers
 {
-    public class NotesController : Controller
+    public class NotesController : BaseController
     {
         private readonly IPeopleNotesRepository _repo;
         public NotesController(IPeopleNotesRepository repo)
@@ -13,12 +13,10 @@ namespace PeopleNotes.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddOrEdit(int id = 0)
+        public IActionResult AddOrEdit(int id = 0, int personId = 0)
         {
             if (id == 0)
             {
-                int personId = 0;
-                int.TryParse(Request.Cookies["UserId"], out personId);
                 var note = new Note() { PersonId = personId };
                 return View("AddOrEdit", note);
             }
@@ -35,7 +33,10 @@ namespace PeopleNotes.Controllers
             if (ModelState.IsValid)
             {
                 if (note.NoteId == 0)
+                {
+                    //note.PersonId = //CurrentUser.UserId;
                     _repo.CreateNote(note);
+                }
                 else
                     _repo.UpdateNote(note);
 

@@ -1,0 +1,31 @@
+﻿@using Newtonsoft.Json;
+@using PeopleNotes.Classes;
+
+<ul class="navbar-nav">
+    <li>
+        <img src='~/images/aspnet-mvc-webstore-shopping-cart-image.png'/>
+    </li>
+@if (Context.Session.GetString("User") != null)
+{
+    <li class="nav-item">
+        @{
+            var user = JsonConvert.DeserializeObject<User>(Context.Session.GetString("User"));
+        }  
+        <a class="nav-link text-dark" asp-action="manage" title="Manage">Hello @user.Username</a>
+    </li>
+    <li class="nav-item">
+        <form  class="form-inline" asp-action="Logoff" asp-controller="Account">
+            <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+        </form>
+    </li>
+}
+else
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-action="register">Register</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-action="login">Login</a>
+    </li>
+}
+</ul>
