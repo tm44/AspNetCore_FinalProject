@@ -17,13 +17,18 @@ namespace PeopleNotes.Controllers
         }
         // GET: /People/1
         [Authorize]
-        public ActionResult Index(int id)
+        public ActionResult Index(int id, string sortOrder = "date")
         {
             if (id == 0)
                 return RedirectToAction("index", "home");
 
             var person = _repo.GetPersonById(CurrentUser.UserId, id);
-            person.Notes = _repo.GetNotesForPerson(person.PersonId).ToList();
+
+            if (sortOrder == "date")
+                person.Notes = _repo.GetNotesForPerson(person.PersonId).OrderByDescending(n => n.LastUpdated).ToList();
+            else
+                person.Notes = _repo.GetNotesForPerson(person.PersonId).OrderBy(n => n.Text).ToList();
+
             return View(person);
         }
 
@@ -84,7 +89,8 @@ namespace PeopleNotes.Controllers
         // GET: PeopleController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            _repo.DeletePerson(id);
+            return RedirectToAction("index");
         }
 
         // POST: PeopleController/Delete/5

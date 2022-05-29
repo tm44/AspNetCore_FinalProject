@@ -5,8 +5,7 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Your people:</h1>
 
 @*    <form method="post">
         <div class="mb-3 mt-3">
@@ -26,8 +25,8 @@
         {
             <a asp-controller="people" asp-route-id="@p.PersonId">@p.FirstName</a><br />
         }
-
-        <a asp-controller="People" asp-action="Create">Add a person</a>
+        <br />
+        <a asp-controller="People" asp-action="Create"class="btn btn-success text-white"><i class="fas fa-random"></i> Add a person</a>
 
     }
 </div>

@@ -15,5 +15,6 @@ namespace PeopleNotes.Data
         User GetUser(string username, string password);
         User CreateUser(string username, string password);
         Person CreatePerson(Person person);
+        void DeletePerson(int personId);
     }
 }

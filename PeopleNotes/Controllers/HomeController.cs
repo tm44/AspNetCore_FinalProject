@@ -17,14 +17,6 @@ namespace PeopleNotes.Controllers
             _repository = repo;
         }
 
-        [HttpPost]
-        public IActionResult Index(IFormCollection f)
-        {
-            var search = f["search"].ToString();
-            var people = _repository.GetPeopleByName(1, search);
-
-            return View(people);
-        }
 
         [HttpGet]
         [Authorize]

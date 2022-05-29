@@ -43,6 +43,7 @@ namespace PeopleNotes.Data
 
         public Note CreateNote(Note note)
         {
+            note.LastUpdated = DateTime.Now;
             var savedNote = _context.Notes.Add(note);
             _context.SaveChanges();
             return note;
@@ -93,6 +94,17 @@ namespace PeopleNotes.Data
             var newPerson = _context.People.Add(person);
             _context.SaveChanges();
             return newPerson.Entity;
+        }
+
+        public void DeletePerson(int personId)
+        {
+            var person = _context.People.FirstOrDefault(p => p.PersonId == personId);
+            if (person != null)
+            {
+                _context.People.Remove(person);
+                _context.SaveChanges();
+            }
+
         }
     }
 }

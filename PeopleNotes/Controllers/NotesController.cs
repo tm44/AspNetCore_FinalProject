@@ -23,7 +23,7 @@ namespace PeopleNotes.Controllers
             else
             {
                 var note = _repo.GetNoteById(id);
-                return PartialView("AddOrEdit", note);
+                return View("AddOrEdit", note);
             }
         }
 

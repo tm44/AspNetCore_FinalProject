@@ -5,7 +5,13 @@
 @{
     ViewData["Person"] = Model;
 }
-<h1>@Model.FirstName</h1>
+<h1>@Model.FirstName @Model.LastName</h1>
 <partial name="_Notes" model="Model.Notes" view-data="ViewData" />
+
+<br /><br />
+
+<a class="btn btn-danger" asp-action="Delete" asp-controller="People" asp-route-id="@Model.PersonId"><i class="fas fa-xmark"></i> Delete @Model.FirstName</a>
+
+<br /><br />
 
 <a asp-action="Index" asp-controller="Home">Back to List</a>
