@@ -14,5 +14,13 @@ namespace PeopleNotes.Classes
         public int UserId { get; set; }
         
         public User? User { get; set; }
+
+        public string DisplayName
+        {
+            get
+            {
+                return FirstName + (string.IsNullOrEmpty(LastName) ? string.Empty : " " + LastName);
+            }
+        }
     }
 }

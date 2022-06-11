@@ -8,6 +8,7 @@ namespace PeopleNotes.Data
         IEnumerable<Person> GetPeopleByName(int userId, string name);
         Person GetPersonById(int userId, int id);
         IEnumerable<Note> GetNotesForPerson(int personId);
+        IEnumerable<Note> FindNotes(int userId, string search);
         Note GetNoteById(int noteId);
         Note CreateNote(Note note);
         Note UpdateNote(Note note);

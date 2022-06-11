@@ -5,7 +5,7 @@
 @{
     ViewData["Person"] = Model;
 }
-<h1>@Model.FirstName @Model.LastName</h1>
+<h1>@Model.DisplayName</h1>
 <partial name="_Notes" model="Model.Notes" view-data="ViewData" />
 
 <br /><br />

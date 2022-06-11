@@ -3,4 +3,14 @@
 
 // Write your JavaScript code.
 $(function () {
+    $("#SearchButton").on("click", function () {
+        $.ajax({
+            url: '/Home/Search',
+            type: 'POST',
+            data: { search: $("#SearchText").val() },
+            success: function (result) {
+                $("#SearchResults").html(result);
+            }
+        })
+    })
 })

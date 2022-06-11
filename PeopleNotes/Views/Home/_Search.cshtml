@@ -1,0 +1,11 @@
+﻿@model IEnumerable<PeopleNotes.Classes.Note>
+
+@if (Model == null || Model.Count() == 0)
+{
+    @:No notes for your search term.
+}
+
+@foreach (var note in Model)
+{
+    <a asp-controller="people" asp-action="index" asp-route-id="@note.PersonId">@note.Person.FirstName</a> @:- @note.Text <br /><br />
+}

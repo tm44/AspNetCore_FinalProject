@@ -38,5 +38,12 @@ namespace PeopleNotes.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        [HttpPost]
+        public IActionResult Search(string search)
+        {
+            var notes = _repository.FindNotes(CurrentUser.UserId, search);
+            return PartialView("_Search", notes);
+        }
     }
 }

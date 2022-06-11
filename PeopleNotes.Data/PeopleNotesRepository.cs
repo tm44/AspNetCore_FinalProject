@@ -1,4 +1,5 @@
 ﻿using PeopleNotes.Classes;
+using Microsoft.EntityFrameworkCore;
 
 namespace PeopleNotes.Data
 {
@@ -27,7 +28,7 @@ namespace PeopleNotes.Data
 
         public IEnumerable<Person> GetPeople(int userId)
         {
-            return _context.People.Where(p => p.UserId == userId);
+            return _context.People.Include(p => p.Notes).Where(p => p.UserId == userId);
         }
 
         private bool isNameMatch(Person person, string search)
@@ -78,7 +79,17 @@ namespace PeopleNotes.Data
 
         public User GetUser(string username, string password)
         {
-            return _context.Users.FirstOrDefault(u => u.Username.ToLower() == username.ToLower() && u.Password == password);
+            var foundUser = _context.Users.FirstOrDefault(u => u.Username.ToLower() == username.ToLower() && u.Password == password);
+            if (foundUser == null)
+                return null;
+
+            // Doing this strange thing because otherwise the User has a People collection, and each Person has a User reference, and it causes
+            // a serialization error.  The only thing we really need for the app is to keep track of the UserId.
+            return new User()
+            {
+                Username = foundUser.Username,
+                UserId = foundUser.UserId
+            };
         }
 
         public User CreateUser(string username, string password)
@@ -105,6 +116,13 @@ namespace PeopleNotes.Data
                 _context.SaveChanges();
             }
 
+        }
+
+        public IEnumerable<Note> FindNotes(int userId, string search)
+        {
+            var people = GetPeople(userId);
+            var peopleIds = _context.People.Where(p => p.UserId == userId).Select(p => p.PersonId).ToArray();
+            return _context.Notes.Where(n => peopleIds.Contains(n.PersonId) && n.Text.Contains(search));
         }
     }
 }
